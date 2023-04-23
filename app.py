@@ -65,7 +65,7 @@ def index():
         gpslock = 1
     if running:
         calculate_wind()
-    return render_template('index.html', gpslock=gpslock,aircraftheading=aircraftheading, aircraftspeed=aircraftspeed, windheading=windheading, windspeed=windspeed, running=running)
+    return render_template('index.html', gpslock=gpslock,aircraftheading=aircraftheading, aircraftspeed=aircraftspeed, windheading=int(windheading), windspeed=int(windspeed), running=running)
 
 @app.route('/update', methods=['GET'])
 def update():
