@@ -1,0 +1,9 @@
+[Unit]
+Description=Drifter Service
+After=network-online.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/python3 
