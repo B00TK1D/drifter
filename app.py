@@ -79,7 +79,7 @@ def stop():
 
 
 def webserver():
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8080)
 
 def gps_loop():
     global lat, lon

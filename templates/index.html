@@ -2128,7 +2128,7 @@
     </style>
   </head>
   <body class="body">
-    {{#if gpslock}}
+    {% if gpslock %}
       <h1 class="heading">Wind: {{windspeed}}kts @ {{windheading}}°</h1>
       <div class="div-block">
         <div class="w-form">
@@ -2138,16 +2138,16 @@
             <label for="email" class="field-label">Heading</label>
             <input type="number" class="w-input" maxlength="256" name="email" placeholder="{{aircraftheading}}" id="email" required="" />
             <input type="submit" value="Save" class="w-button" />
-            {{#if running}}
+            {% if running %}
               <a href="/stop" class="button w-button">Stop</a>
-            {{else}}
+            {% else %}
               <a href="/start" class="button w-button">Start</a>
-            {{/if}}
+            {% if %}
           </form>
         </div>
-    {{else}}
+    {% else %}
       <h1 class="heading">Waiting for GPS...</h1>
-    {{/if}}
+    {% if %}
     </div>
   </body>
 </html>
