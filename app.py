@@ -44,7 +44,7 @@ def calculate_wind():
         # Convert time delta from seconds to hours
         delta = delta / 3600
         # Calculate where the aircraft should be based on the start position, heading and speed
-        still = haversine_inverse((start_lat, start_lon), aircraftspeed * delta, aircraftheading)
+        still = haversine_inverse(start_lat, start_lon, aircraftspeed * delta, aircraftheading)
         # Calculate the distance between the aircraft and the actual position
         distance = haversine_distance(still[0], still[1], lat, lon)
         # Calculate the heading between the aircraft and the actual position
