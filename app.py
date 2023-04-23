@@ -63,11 +63,11 @@ def calculate_wind():
 
 @app.route('/')
 def index():
-    global lat, lon, running
+    global lat, lon, running, windspeed, windheading
     gpslock = 0
     if lat and lon:
         gpslock = 1
-    return render_template('index.html', gpslock=gpslock, running=running)
+    return render_template('index.html', gpslock=gpslock, running=running, windspeed=int(windspeed), windheading=int(windheading)
 
 
 @app.route('/data', methods=['GET'])
@@ -75,7 +75,7 @@ def apidata():
     global lat, lon, aircraftheading, aircraftspeed, windheading, windspeed
     calculate_wind()
     if lat and lon:
-        return "Wind: {} kts @ {}°".format(round(windspeed, 1), round(windheading, 1))
+        return "Wind: {} kts @ {}°".format(int(windspeed), int(windheading))
     return "Waiting for GPS..."
 
 
