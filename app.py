@@ -35,6 +35,8 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     return haversine.haversine((lat1, lon1), (lat2, lon2), unit=haversine.Unit.NAUTICAL_MILES)
 
 def haversine_inverse(lat, lon, distance, heading):
+    # Convert heading to radians
+    heading = math.radians(heading)
     return haversine.inverse_haversine((lat, lon), distance, heading)
 
 def calculate_wind():
