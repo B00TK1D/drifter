@@ -70,8 +70,8 @@ def index():
 @app.route('/update', methods=['GET'])
 def update():
     global aircraftheading, aircraftspeed
-    aircraftheading = request.args.get('aircraftheading')
-    aircraftspeed = request.args.get('aircraftspeed')
+    aircraftheading = float(request.args.get('aircraftheading'))
+    aircraftspeed = float(request.args.get('aircraftspeed'))
     return redirect('/')
 
 @app.route('/start', methods=['GET'])
