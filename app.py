@@ -72,8 +72,9 @@ def index():
 
 @app.route('/data', methods=['GET'])
 def apidata():
-    global lat, lon, aircraftheading, aircraftspeed, windheading, windspeed
-    calculate_wind()
+    global lat, lon, aircraftheading, aircraftspeed, windheading, windspeed, running
+    if running:
+        calculate_wind()
     if lat and lon:
         return "Wind: {} kts @ {}°".format(int(windspeed), int(windheading))
     return "Waiting for GPS..."
