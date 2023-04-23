@@ -2146,6 +2146,12 @@
         </div>
     {% else %}
       <h1 class="heading">Waiting for GPS...</h1>
+      <script>
+        // Reload the page every 5 seconds until we get a GPS lock
+        setTimeout(function() {
+          window.location.reload();
+        }, 5000);
+      </script>
     {% endif %}
     </div>
     <script>
