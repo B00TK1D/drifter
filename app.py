@@ -34,14 +34,26 @@ def haversine_heading(lat1, lon1, lat2, lon2):
 def haversine_distance(lat1, lon1, lat2, lon2):
     return haversine.haversine((lat1, lon1), (lat2, lon2), unit=haversine.Unit.NAUTICAL_MILES)
 
+def haversine_inverse(lat, lon, distance, heading):
+    return haversine.inverse_haversine((lat, lon), distance, heading)
+
 def calculate_wind():
-    global windheading, windspeed, start_lat, start_lon, start_time, lat, lon
+    global windheading, windspeed, aircraftheading, aircraftspeed, start_lat, start_lon, start_time, lat, lon
     if start_lat and start_lon and start_time and lat and lon:
         delta = time.time() - start_time
         # Convert time delta from seconds to hours
         delta = delta / 3600
-        windheading = haversine_heading(start_lat, start_lon, lat, lon)
-        windspeed = haversine_distance(start_lat, start_lon, lat, lon) / delta
+        # Calculate where the aircraft should be based on the start position, heading and speed
+        still = haversine_inverse((start_lat, start_lon), aircraftspeed * delta, aircraftheading)
+        # Calculate the distance between the aircraft and the actual position
+        distance = haversine_distance(still[0], still[1], lat, lon)
+        # Calculate the heading between the aircraft and the actual position
+        heading = haversine_heading(still[0], still[1], lat, lon)
+        # Calculate the wind speed
+        windspeed = distance / delta
+        # Calculate the wind heading
+        windheading = heading
+        print(windheading, "@", windspeed)
 
 
 
