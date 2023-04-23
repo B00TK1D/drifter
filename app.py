@@ -31,13 +31,16 @@ def haversine_heading(lat1, lon1, lat2, lon2):
     heading = (heading + 360) % 360
     return heading
 
+
 def haversine_distance(lat1, lon1, lat2, lon2):
     return haversine.haversine((lat1, lon1), (lat2, lon2), unit=haversine.Unit.NAUTICAL_MILES)
+
 
 def haversine_inverse(lat, lon, distance, heading):
     # Convert heading to radians
     heading = math.radians(heading)
     return haversine.inverse_haversine((lat, lon), distance, heading)
+
 
 def calculate_wind():
     global windheading, windspeed, aircraftheading, aircraftspeed, start_lat, start_lon, start_time, lat, lon
@@ -58,16 +61,23 @@ def calculate_wind():
         print(windheading, "@", windspeed)
 
 
-
 @app.route('/')
 def index():
-    global lat, lon, aircraftheading, aircraftspeed, windheading, windspeed, running
+    global lat, lon, running
     gpslock = 0
     if lat and lon:
         gpslock = 1
-    if running:
-        calculate_wind()
-    return render_template('index.html', gpslock=gpslock,aircraftheading=aircraftheading, aircraftspeed=aircraftspeed, windheading=int(windheading), windspeed=int(windspeed), running=running)
+    return render_template('index.html', gpslock=gpslock, running=running)
+
+
+@app.route('/data', methods=['GET'])
+def apidata():
+    global lat, lon, aircraftheading, aircraftspeed, windheading, windspeed
+    calculate_wind()
+    if lat and lon:
+        return "Wind: {} kts @ {}°".format(round(windspeed, 1), round(windheading, 1))
+    return "Waiting for GPS..."
+
 
 @app.route('/update', methods=['GET'])
 def update():
@@ -75,6 +85,7 @@ def update():
     aircraftheading = float(request.args.get('aircraftheading'))
     aircraftspeed = float(request.args.get('aircraftspeed'))
     return redirect('/')
+
 
 @app.route('/start', methods=['GET'])
 def start():
@@ -84,6 +95,7 @@ def start():
     start_time = time.time()
     running = 1
     return redirect('/')
+
 
 @app.route('/stop', methods=['GET'])
 def stop():
@@ -95,6 +107,7 @@ def stop():
 def webserver():
     app.run(host='0.0.0.0', port=8080)
 
+
 def gps_loop():
     global lat, lon
     gpsd = gps.gps(mode=gps.WATCH_ENABLE|gps.WATCH_NEWSTYLE)
@@ -105,7 +118,6 @@ def gps_loop():
         lat = getattr(nx,'lat', 0)
         lon = getattr(nx,'lon', 0)
         time.sleep(1)
-
 
 
 def main():

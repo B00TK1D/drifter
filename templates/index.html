@@ -2128,7 +2128,7 @@
   </head>
   <body class="body">
     {% if gpslock %}
-      <h1 class="heading">Wind: {{windspeed}}kts @ {{windheading}}°</h1>
+      <h1 class="heading" id="data">Wind: {{windspeed}} kts @ {{windheading}}°</h1>
       <div class="div-block">
         <div class="w-form">
           <form id="email-form" name="email-form"  method="get" action="/update">
@@ -2148,5 +2148,18 @@
       <h1 class="heading">Waiting for GPS...</h1>
     {% endif %}
     </div>
+    <script>
+      // Every 1 second, pull the latest data from the server and replace the contents of the #data div with it
+      setInterval(function() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/data', true);
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            document.getElementById('data').innerHTML = xhr.responseText;
+          }
+        };
+        xhr.send();
+      }, 1000);
+    </script>
   </body>
 </html>
